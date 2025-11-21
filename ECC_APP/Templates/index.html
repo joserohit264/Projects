@@ -1,0 +1,198 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>ECC Messenger — Encrypted Mode</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body {
+      background: #0d1b3d;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 22px;
+      margin-bottom: 25px;
+    }
+
+    /* ---- Reset Button Top Right ---- */
+    .top-right {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+    }
+    .reset-btn {
+      background:#ff4d4d;
+      color:white;
+      padding:8px 14px;
+      border:none;
+      border-radius:8px;
+      font-weight:bold;
+      cursor:pointer;
+      transition:0.2s ease;
+    }
+    .reset-btn:hover {
+      background:#ff6b6b;
+      transform:scale(1.05);
+      box-shadow:0 0 10px #ff6b6b;
+    }
+
+    .row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      background: #11255c;
+      padding: 20px;
+      border-radius: 14px;
+      width: 48%;
+      min-width: 320px;
+      box-shadow: 0 0 15px rgba(255,255,255,0.08);
+      position: relative;
+    }
+
+    .section-title {
+      font-size: 16px;
+      margin-top: 12px;
+      border-bottom: 1px solid #3354a8;
+      padding-bottom: 4px;
+    }
+
+    textarea {
+      width: 100%;
+      background: #0b1430;
+      color: #d6e4ff;
+      border: 1px solid #3354a8;
+      padding: 10px;
+      border-radius: 6px;
+      font-family: monospace;
+      margin-top: 6px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background: #4da3ff;
+      color: black;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s ease;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #77bdff;
+      transform: scale(1.05);
+      box-shadow: 0 0 10px #77bdff;
+    }
+
+    /* ---- Decrypted Result Box ---- */
+    .result {
+      background: #173d78;
+      border-left: 4px solid #4da3ff;
+      margin-top: 12px;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 14px;
+      color: #b8d9ff;
+    }
+
+    .pubkey-box {
+      background:#0b1430;
+      border:1px solid #3354a8;
+      padding:10px;
+      border-radius:6px;
+      font-family:monospace;
+      font-size:12px;
+      margin-top:6px;
+      color:#d6e4ff;
+      height:130px;
+      overflow:auto;
+      white-space:pre-wrap;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<!-- RESET BUTTON TOP RIGHT -->
+<div class="top-right">
+  <form method="post" action="/reset">
+    <button class="reset-btn">Reset Keys</button>
+  </form>
+</div>
+
+<h1>ECC Encrypted Messenger — Alice & Bob</h1>
+
+<div class="row">
+
+  <!-- ALICE PANEL -->
+  <div class="card">
+    <h2>Alice</h2>
+
+    <div class="section-title">Alice Public Key</div>
+    <div class="pubkey-box">{{ alice_pub }}</div>
+
+    <div class="section-title">Alice → Bob : Enter Plaintext</div>
+    <form method="post" action="/send">
+      <textarea name="message" rows="3" placeholder="Message for Bob..."></textarea>
+      <input type="hidden" name="sender" value="alice">
+      <button type="submit">Send to Bob (Encrypt)</button>
+    </form>
+
+    <div class="section-title">Encrypted Message from Bob</div>
+    <textarea rows="3" readonly>{{ cipher_ba }}</textarea>
+
+    <form method="post" action="/decrypt">
+      <input type="hidden" name="user" value="alice">
+      <button type="submit">Decrypt</button>
+    </form>
+
+    {% if result_ba %}
+    <div class="result">
+      <strong>Decrypted:</strong><br>{{ result_ba }}
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- BOB PANEL -->
+  <div class="card">
+    <h2>Bob</h2>
+
+    <div class="section-title">Bob Public Key</div>
+    <div class="pubkey-box">{{ bob_pub }}</div>
+
+    <div class="section-title">Bob → Alice : Enter Plaintext</div>
+    <form method="post" action="/send">
+      <textarea name="message" rows="3" placeholder="Message for Alice..."></textarea>
+      <input type="hidden" name="sender" value="bob">
+      <button type="submit">Send to Alice (Encrypt)</button>
+    </form>
+
+    <div class="section-title">Encrypted Message from Alice</div>
+    <textarea rows="3" readonly>{{ cipher_ab }}</textarea>
+
+    <form method="post" action="/decrypt">
+      <input type="hidden" name="user" value="bob">
+      <button type="submit">Decrypt</button>
+    </form>
+
+    {% if result_ab %}
+    <div class="result">
+      <strong>Decrypted:</strong><br>{{ result_ab }}
+    </div>
+    {% endif %}
+  </div>
+
+</div>
+
+</body>
+</html>
