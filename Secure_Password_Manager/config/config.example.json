@@ -1,4 +1,0 @@
-{
-    "db_path": "database/password_manager.db",
-    "kdf_iterations": 200000
-}
