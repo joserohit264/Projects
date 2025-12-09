@@ -1,16 +1,5 @@
-<p align="center">
-    <img src="https://github.com/Amrita-TIFAC-Cyber-Blockchain/.github/blob/main/profile/img/AVV_CYS_Logo.png" alt ="Amrita TIFAC" width="700" />
-</p>
-
 # 24CYS336 - Blockchain-Technology 
 
-## BT#05 - BlockVote: Enterprise E-Voting System
-
-![](https://img.shields.io/badge/Member-Jose_Rohit_M-gold)  <br/> 
-![](https://img.shields.io/badge/SDG-9-darkgreen) ![](https://img.shields.io/badge/SDG-16-darkgreen)  <br/>
-![](https://img.shields.io/badge/Reviewed-18th_Nov_2025-brown) <br/>
-
-------
 
 ### Problem Statement
 Traditional electronic voting systems face major challenges such as centralized control, security loopholes, and lack of transparency.  
